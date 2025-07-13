@@ -1,4 +1,6 @@
-# Lesson One
+# Week two Assignments
+
+## Lesson One
 
 In this lesson we went through a introduction to data in Rails. We set up the rails environment on our local, forked the CTD repo, followed instructions in the repo readme to seed data for a SQLite database, then searched through the data in various tables to collect information to use.
 
@@ -47,6 +49,9 @@ spring_enrolls = Enrollment.where(course_id: spring_core_id).where('student_id !
 * Grab students
 
 Grab all students. Use this later for email. Remember the index may not be equal to the student id. Verify.
+
+Skip this step. There is no need to grab the students here, we can loop through them later to find the specific student we need. Originally I thought I needed a collection of students. I do, but they are already in a collection, no need to make my own special one.
+
 ```ruby
 stews = Student.all
 ```
@@ -63,6 +68,9 @@ email_list = []
 _( << ):_  called shovel operator, adds template to end of array.
 
 Probably better to use _map_ here instead of _each_ as map will not change the original spring_enrolls collection.
+
+stews is a collection, but grabbing a student using the specific enroll.student_id as an array works, but not great. It is the reason 1 needed to be subtracted to get the correct email, because array start at 0. Again probably not the best idea.
+
 ```ruby
 spring_enrolls.each do |enroll|
   a = enroll.student_id
@@ -70,3 +78,39 @@ spring_enrolls.each do |enroll|
   email_list << entry
 end
 ```
+
+Instead of grabbing all students before, do it here, using _find_ method. Now I can use the newly found "student" for the template. The above works, but more because of the order of things in the tables. "_stews[a-1].email_" just happens to line up with the filtered "_spring_enrolls_" content. In the below snippet I am finding the student from the filtered collection, so the order in the table does not matter. Now that I think on it, the above is is still finding the correct student, but the concept is sound. The above is not proper and is problematic as it only works if things are just so. The below is more Rails convention and is not restricted to the box.
+
+```ruby
+spring_enrolls.each do |enroll|
+  student = Student.find(enroll.student_id)
+  entry = "student id: #{student.id}, student email: #{student.email}"
+  email_list << entry
+end
+```
+
+Print the emails
+
+```ruby
+email_list.each do |email|
+  puts email
+end
+```
+
+There are no safety checks here. Put the ```begin``` ```rescue``` back at a minimum. Conditionals like if statement checks. For example, what if nothing gets put in the email_list. What if there is nothing in spring_enrolls?
+
+## Lesson Two
+
+## Mindset Assignment
+
+1. What's the rule of thumb for when to ask for help?
+
+  Everyone is different. I prefer to do the research. I often find that sitting on it a day may produce the process for finding the answer I am looking for, but not always. This also takes time that most find unacceptable. I think the 20 min to half hour rule works fine. If you have hit the problem from the angles and have nothing, then ask for help. Before asking for help, be sure you understand the question, not the result or error that is staring back at you. Many of my solutions have came from my understanding of the questions I needed to answer, not so much beating the error I was getting to death.
+
+2. When is an instance where you wish you would have asked for help sooner?
+
+  I had created a blog for my portfolio. Loved it and I ran across a site for a service that was Rails focused, wish I could remember the site, That had a table of contents in it's blog. Immediately I knew I needed that in my life. I found a few articles that looked at it, and one video, but nothing I tried was a solid solution. What was truly frustrating was getting it complete, and it still not working. I wrote two stack overflow articles trying to get guidance. The first one did provide help, the second one never did. I kept the code but turned it off. Forgot about it for 5 to 6 months. Then one day while cleaning up a mess, I happened upon it and decided to test a concept as to why it did not work. The test provided a working concept for the table of contents with a minor change to the structure. I truly wish there had been a quicker way to have got help with this.
+
+3. What information have you found crucial to include in your questions so that mentors or peers can help answer your questions quicker?
+
+  Two things are a must here. One, take the time to explain your question, (refer to 1). There is a problem and you have tried to find a solution. In searching for a solution, you are hunting for the answer to your question. Explain your question. Many times your are not asking the right question, which means you do not understand the problem. Understanding the question is the first half of finding the solution. This is a concept I had a hard time with for a long time. The error that shows up could very well not be the problem. The error is a by product of the problem. You are asking the wrong question. Second is the logic, or code, you are focused on. Show what you are working with. To help with a solution one needs to be able to create the issue. It could be a syntax problem. It could be a logic problem. It could be any number of things. The point is, no one can help if they can't also see the problem. Be complete in your inquiry for help. Be specific. Taking the time in the ask will help with getting help.
