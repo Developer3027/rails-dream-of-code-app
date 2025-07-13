@@ -50,7 +50,7 @@ spring_enrolls = Enrollment.where(course_id: spring_core_id).where('student_id !
 
 Grab all students. Use this later for email. Remember the index may not be equal to the student id. Verify.
 
-Skip this step. There is no need to grab the students here, we can loop through them later to find the specific student we need. Originally I thought I needed a collection of students. I do, but they are already in a collection, no need to make my own special one.
+**_Skip this step_**. There is no need to grab the students here, we can loop through them later to find the specific student we need. Originally I thought I needed a collection of students. I do, but they are already in a collection, no need to make my own special one.
 
 ```ruby
 stews = Student.all
@@ -79,6 +79,8 @@ spring_enrolls.each do |enroll|
 end
 ```
 
+**_UPDATE_**
+
 Instead of grabbing all students before, do it here, using _find_ method. Now I can use the newly found "student" for the template. The above works, but more because of the order of things in the tables. "_stews[a-1].email_" just happens to line up with the filtered "_spring_enrolls_" content. In the below snippet I am finding the student from the filtered collection, so the order in the table does not matter. Now that I think on it, the above is is still finding the correct student, but the concept is sound. The above is not proper and is problematic as it only works if things are just so. The below is more Rails convention and is not restricted to the box.
 
 ```ruby
@@ -96,6 +98,7 @@ email_list.each do |email|
   puts email
 end
 ```
+**_REVIEW_**
 
 There are no safety checks here. Put the ```begin``` ```rescue``` back at a minimum. Conditionals like if statement checks. For example, what if nothing gets put in the email_list. What if there is nothing in spring_enrolls?
 
@@ -107,27 +110,31 @@ Like Question one, we want to find any two mentors and provide a template with t
 
 mentor_enrollment_assignments, enrollments, courses, coding_classes, trimesters, mentors are up for review in completing this question.
 
-**How many do not have a grade?** In the Enrollment table we have the course_id, student_id, and the final_grade. We are still looking at the spring trimester, so I can use the set up in question 1 to see how many have no grade.
+* **How many do not have a grade?** In the Enrollment table we have the course_id, student_id, and the final_grade. We are still looking at the spring trimester, so I can use the set up in question 1 to see how many have no grade.
 
 ```ruby
 itp_id = CodingClass.find_by(title: "Intro to Programming").id
 spring_id = Trimester.find_by(year: "2025", term: "Spring").id
 spring_core_id = Course.where(coding_class_id: itp_id, trimester_id: spring_id).ids[0]
 ```
+* Filter the Enrollments for the spring that do not have a final grade.
 
 ```ruby
 needs_grades = Enrollment.where(course_id: spring_core_id).where(final_grade: nil)
 ```
 
-Set the array for the mentors
+* Set the array for the mentors who need reminding.
 
 ```ruby
 mentor_emails = []
 ```
+**_NOTE_**
 
 This assumes that no grade is nil for the final grade. The first enrollment record has a final grade of "completed". The above returned 3 records. Are there other descriptors other than "completed", like "working", etc? Should those be considered in this list? 
 
-Now that I have this list, need to find the associated mentors.
+* Now that I have this list, need to find the associated mentors.
+
+**_Process_**
 
 The mentor enrollment assignments table has both the mentor id and the enrollment id. Like with students, let's loop through the _needs_grades_ variable, using the enrollment id to find the mentor id from the mentor enrollment assignment model, then use that mentor id to get the mentor email from the mentor model? This will work but feels like there is a better way.
 
@@ -140,7 +147,7 @@ needs_grades.each do |remind|
 end
 ```
 
-Print mentor emails.
+* Print mentor emails.
 
 ```ruby
 mentor_emails.each do |mail|
