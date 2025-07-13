@@ -142,7 +142,7 @@ end
 
 Print mentor emails.
 
-``ruby
+```ruby
 mentor_emails.each do |mail|
   puts mail
 end
