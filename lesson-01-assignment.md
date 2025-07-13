@@ -1,6 +1,6 @@
 # Week two Assignments
 
-## Lesson One
+## Introduction
 
 In this lesson we went through a introduction to data in Rails. We set up the rails environment on our local, forked the CTD repo, followed instructions in the repo readme to seed data for a SQLite database, then searched through the data in various tables to collect information to use.
 
@@ -18,7 +18,7 @@ In the above example, "_upcoming_courses_" is the variable we put the search int
 
 _**NOTE**: Copy the following code snippets into rails console (terminal) in order._ 
 
-## Question 1:
+### Question 1:
 **Finish Task 1: Collect emails for students in the current intro course.**
 
 We are looking for any two students enrolled in the "Intro to Programming" class for the Spring of 2025. We need to return the template <student_id>, <student_email>.
@@ -99,7 +99,29 @@ end
 
 There are no safety checks here. Put the ```begin``` ```rescue``` back at a minimum. Conditionals like if statement checks. For example, what if nothing gets put in the email_list. What if there is nothing in spring_enrolls?
 
-## Lesson Two
+### Question Two
+
+For the second task we need to find all the mentors who have not assigned a final grade for the spring trimester and email them to remind them to finish grading.
+
+Like Question one, we want to find any two mentors and provide a template with the ```<mentor id>, <mentor email>``` for the reminder.
+
+mentor_enrollment_assignments, enrollments, courses, coding_classes, trimesters, mentors are up for review in completing this question.
+
+**How many do not have a grade?** In the Enrollment table we have the course_id, student_id, and the final_grade. We are still looking at the spring trimester, so I can use the set up in question 1 to see how many have no grade.
+
+```ruby
+itp_id = CodingClass.find_by(title: "Intro to Programming").id
+spring_id = Trimester.find_by(year: "2025", term: "Spring").id
+spring_core_id = Course.where(coding_class_id: itp_id, trimester_id: spring_id).ids[0]
+```
+
+```ruby
+spring_enrolls = Enrollment.where(course_id: spring_core_id).where(final_grade: nil)
+```
+
+This assumes that no grade is nil for the final grade. The first enrollment record has a final grade of "completed". The above returned 3 records. Are there other descriptors other than "completed", like "working", etc? Should those be considered in this list? 
+
+Now that I have this list, need to find the associated mentors.
 
 ## Mindset Assignment
 
