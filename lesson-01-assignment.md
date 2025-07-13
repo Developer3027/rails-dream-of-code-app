@@ -135,7 +135,16 @@ The mentor enrollment assignments table has both the mentor id and the enrollmen
 needs_grades.each do |remind|
   mentor_id = MentorEnrollmentAssignment.find_by(enrollment_id: remind.id).mentor_id
   mentor_email = Mentor.find_by(id: mentor_id).email
-  puts "mentor id: #{mentor_id}, mentor email: #{mentor_email}"
+  entry = "mentor id: #{mentor_id}, mentor email: #{mentor_email}"
+  mentor_emails << entry
+end
+```
+
+Print mentor emails.
+
+``ruby
+mentor_emails.each do |mail|
+  puts mail
 end
 ```
 
