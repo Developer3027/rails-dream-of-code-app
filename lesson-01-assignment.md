@@ -119,11 +119,25 @@ spring_core_id = Course.where(coding_class_id: itp_id, trimester_id: spring_id).
 needs_grades = Enrollment.where(course_id: spring_core_id).where(final_grade: nil)
 ```
 
+Set the array for the mentors
+
+```ruby
+mentor_emails = []
+```
+
 This assumes that no grade is nil for the final grade. The first enrollment record has a final grade of "completed". The above returned 3 records. Are there other descriptors other than "completed", like "working", etc? Should those be considered in this list? 
 
 Now that I have this list, need to find the associated mentors.
 
 The mentor enrollment assignments table has both the mentor id and the enrollment id. Like with students, let's loop through the _needs_grades_ variable, using the enrollment id to find the mentor id from the mentor enrollment assignment model, then use that mentor id to get the mentor email from the mentor model? This will work but feels like there is a better way.
+
+```ruby
+needs_grades.each do |remind|
+  mentor_id = MentorEnrollmentAssignment.find_by(enrollment_id: remind.id).mentor_id
+  mentor_email = Mentor.find_by(id: mentor_id).email
+  puts "mentor id: #{mentor_id}, mentor email: #{mentor_email}"
+end
+```
 
 ## Mindset Assignment
 
