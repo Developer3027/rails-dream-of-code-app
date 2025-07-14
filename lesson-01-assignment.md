@@ -71,6 +71,8 @@ Probably better to use _map_ here instead of _each_ as map will not change the o
 
 stews is a collection, but grabbing a student using the specific enroll.student_id as an array works, but not great. It is the reason 1 needed to be subtracted to get the correct email, because array start at 0. Again probably not the best idea.
 
+I was bothered by this concept. Is stews a collection or an array? Turns out the issue was in the call, not the collection. Because I was asking it to act like an array, it was performing like an array. This is wild concept to me.
+
 ```ruby
 spring_enrolls.each do |enroll|
   a = enroll.student_id
