@@ -42,13 +42,15 @@ spring_trimester = Trimester.new
 
 spring_trimester.year = 2026
 spring_trimester.term = "Spring"
-spring_trimester.application_deadline: "2026-02-15"
-spring_trimester.start_date: "2026-03-01"
-spring_trimester.end_date: "2026-06-30"
+spring_trimester.application_deadline = "2026-02-15"
+spring_trimester.start_date = "2026-03-01"
+spring_trimester.end_date = "2026-06-30"
 
 spring_trimester.inspect
 
 spring_trimester.save
 ```
+
+Run the above in the console without the save action. You will see the new trimester object without the id, rather the id is _nil_. Now run ```spring_trimester.save``` and review the last record in Trimesters. You should see the new record with the id.
 
 
