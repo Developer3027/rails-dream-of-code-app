@@ -152,3 +152,76 @@ franks_assignment.update(mentor_id: Frank.id)
 ```
 
 There you go! Now Frank has a new assignment and mentor 22 can take more time with the puppy. Even the universe is safer with no Sith lords around. Best day ever!
+
+## Question 1
+
+Remember when we created the spring trimester for 2026? Well it would be great if you could create a new course, to include all the coding classes, for the spring class. Here are some tips:
+
+* You may want to loop through the list of coding classes similar to how we looped through courses in lesson 1.
+* You'll be creating courses similar to how we created a Trimester in this lesson.
+* Test your .create statement (in the rails console) before including it in your loop.
+* Also, test your loop with a puts statement before running the loop with the create statement.
+* When you feel confident about both the loop syntax and the create statement, then put them together and execute your loop in the rails console.
+* If you accidentally create a course record that you'd like to delete, you can use the .destroy method. First use a finder method to retrieve the course instance and then call .destroy on that instance.
+
+Let's take a look at the attributes of a course:
+```ruby
+Course.last
+```
+Will present this object:
+```bash
+#<Course:0x0000762cbdcede10
+ id: 35,
+ coding_class_id: 5,
+ trimester_id: 7,
+ max_enrollment: 25,
+ created_at: "2025-07-10 17:29:11.408178000 +0000",
+ updated_at: "2025-07-10 17:29:11.408178000 +0000">
+```
+Fantastic! We know the _id_, _created_at_ and _updated_at_ attributes are automatic, so don't have to worry about those. That _trimester_id_ was created when we made the spring trimester! I will assume that the max size for enrollment is 25. I wonder how many _coding_class_ there are?
+
+```ruby
+CodingClass.count
+```
+
+Great! There are 5 total. Do I need specific information about those classes? Not really, Just the id of each is listed in the course object. I can use the coding class objects as a reference to how many times I need to loop to create the new courses! I can say something like:
+
+```
+coding_class each |class|
+  course.create(
+    coding_class_id = class.id, 
+    trimester_id = spring_trimester.id,
+    max_enrollment = 25 )
+end
+```
+
+This looks ok. I do not need to filter coding class as I want all of them. I do need to create a collection with _all_ like this: ```CodingClass.all```. Then that "class.id" should return the coding_class id for each loop. I should verify the "spring_trimester.id". Let's print this out to see what it does:
+
+```ruby
+all_classes.each do |klas|
+    puts "coding_class_id = #{klas.id}," 
+    puts "trimester_id = #{spring_trimester.id},"
+    puts "max_enrollment = 25"
+    puts ""
+end
+```
+
+That looks good. Probably best to wrap this with some error handling. That way if there is a problem we have some idea of what happened and we don't hurt anything.
+
+```ruby
+all_classes.each do |klas|
+  begin
+    Course.create(
+      coding_class_id: klas.id,
+      trimester_id: spring_tri_xxvi.id,
+      max_enrollment: 25
+    )
+  rescue StandardError => e
+    puts "error: #{e.message}"
+  end
+end
+```
+
+No errors, looks good. Let's take a look at the new stuff. Gather a new collection for the courses of spring of 26 like ```spring_courses = Course.where(trimester_id: spring_tri_xxvi)```. Now I can review "_spring_courses_"
+
+## Question 2
