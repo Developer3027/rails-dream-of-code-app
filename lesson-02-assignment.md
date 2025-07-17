@@ -35,7 +35,9 @@ Command to Create a new record in database table:
 Trimester.create(year: '2026', term: 'Spring', application_deadline: '2026-02-15', start_date: "2026-03-01", end_date: "2026-06-30")
 ```
 
-The above command will create a new trimester in the trimester table using the create method. If using the _new_ method, it will return a new, non-persisted object. This means that using _new_ will place the data for the new object in memory, but will **not save** it to the database. Using _create_ **will save** the object to the database and return it. Let's take a look at how the above could be initialized, then saved to the database:
+The above command will create a new trimester in the trimester table using the create method. If using the _new_ method, it will return a new, non-persisted object. This means that using _new_ will place the data for the new object in memory, but will **not save** it to the database. Using _create_ **will save** the object to the database and return it. Let's take a look at how the above could be initialized, then saved to the database with _new_:
+
+First let's look at the last record in the database for Trimester. We want this as a reference. Running ```Trimester.last``` shows us the last record in the database. You can run this again after creating the new trimester, without calling _save_, to verify if the _new_ record has been added to the database.
 
 ```ruby
 spring_trimester = Trimester.new
@@ -51,6 +53,102 @@ spring_trimester.inspect
 spring_trimester.save
 ```
 
-Run the above in the console without the save action. You will see the new trimester object without the id, rather the id is _nil_. Now run ```spring_trimester.save``` and review the last record in Trimesters. You should see the new record with the id.
+Run the above in the console **_without_** the save action. You will see the new trimester object without the id, rather the id is _nil_. Here we have created a instance of the new record in memory. It has not been saved to the database yet
 
+ Now run ```spring_trimester.save``` and review the last record in Trimesters. You should see the new record with the id. Now the record is saved to the database.
 
+ If a record is already created we can call the _update_ method on it to modify the data of specific attributes. Let's walk through a typical create and update situation.
+
+ ### Create and Update of new Mentor
+
+ A new volunteer, Frank Smith, has signed up to be a mentor. His email is _frank.smith@test.com_. Let's create a new record for him in the database. First let's look at the attributes of the mentor record to make sure we have all the info we need.
+
+ ```ruby
+ Mentor.last
+ ```
+
+ Here is the object we got back:
+ ```bash
+ #<Mentor:0x00007e716347eed0
+ id: 30,
+ first_name: "Yoko",
+ last_name: "Abbott",
+ email: "[FILTERED]",
+ max_concurrent_students: nil,
+ created_at: "2025-07-10 17:29:23.609261000 +0000",
+ updated_at: "2025-07-10 17:29:23.609261000 +0000">
+ ```
+ Now we know we do not have all the information for the record, but we have plenty to create the record. We will make Frank a mentor like this:
+
+ ```ruby
+ Mentor.create(first_name: "Frank", last_name: "Sith", email: "frank.smith@test.com")
+ ```
+ You hit enter and review the returned object. But wait! Have you just sent Frank to the dark side?! We need to correct the last name typo as quick as possible. Who knows what Frank is capable of. First let's put the record in a variable we can use.
+
+ ```ruby
+ Frank = Mentor.last
+ ```
+
+ This worked! Can you imagine why this is probably not the best way to get Frank? Is there a more robust way, maybe using _find_?
+
+ Now that we have "Frank" we can update his last name like this. Now "Frank" is the mentor record and has all it's attributes. We can update "Frank" like this:
+
+ ```ruby
+ Frank.update(last_name: "Smith")
+ ```
+
+ Let's see if the record got updated by checking the last mentor again:
+
+ ```ruby
+ Mentor.last
+ ```
+
+ ```bash
+ #<Mentor:0x00007e716347ed90
+ id: 31,
+ first_name: "Frank",
+ last_name: "Smith",
+ email: "[FILTERED]",
+ max_concurrent_students: nil,
+ created_at: "2025-07-17 16:19:22.073592000 +0000",
+ updated_at: "2025-07-17 16:27:55.600738000 +0000">
+doc-rails(dev)>
+```
+
+Looks like we may have dodged a bullet with that one. Hopefully Frank did not learn how to use his lightening fingers in the past few moments. Bet that will make the news. Now that Frank is here and ready to help, let's give him someone to help. Mentor 22 has a new puppy that is very demanding. He has asked for his work load to be reduced. Why not give Frank one of mentor 22's students?
+
+How many assignments does mentor 22 have? let's see:
+
+```ruby
+mentor_22 = MentorEnrollmentAssignment.where(mentor_id: 22)
+```
+
+If we want to know the number we can add the _count_ method to the end. Or we can call _count_ on the new variable we just created.
+
+```ruby
+mentor_22.count
+```
+
+Mentor 22 is stacked up! let's grab the last one:
+
+```ruby
+franks_assignment = mentor_22.last
+```
+
+Now let's make sure we get Frank and use _find_by_:
+```ruby
+Frank = Mentor.find_by(email: "frank.smith@test.com")
+```
+
+Do we know what Franks id number is?
+
+```ruby
+Frank.id
+```
+
+Great! So let's move mentor 22s assignment to Frank:
+```ruby
+franks_assignment.update(mentor_id: Frank.id)
+```
+
+There you go! Now Frank has a new assignment and mentor 22 can take more time with the puppy. Even the universe is safer with no Sith lords around. Best day ever!
