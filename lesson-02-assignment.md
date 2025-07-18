@@ -179,13 +179,10 @@ Will present this object:
  updated_at: "2025-07-10 17:29:11.408178000 +0000">
 ```
 Fantastic! We know the _id_, _created_at_ and _updated_at_ attributes are automatic, so don't have to worry about those. That _trimester_id_ was created when we made the spring trimester! I will assume that the max size for enrollment is 25. I wonder how many _coding_class_ there are?
-
 ```ruby
 CodingClass.count
 ```
-
 Great! There are 5 total. Do I need specific information about those classes? Not really, Just the id of each is listed in the course object. I can use the coding class objects as a reference to how many times I need to loop to create the new courses! I can say something like:
-
 ```
 coding_class each |class|
   course.create(
@@ -194,9 +191,7 @@ coding_class each |class|
     max_enrollment = 25 )
 end
 ```
-
 This looks ok. I do not need to filter coding class as I want all of them. I do need to create a collection with _all_ like this: ```CodingClass.all```. Then that "class.id" should return the coding_class id for each loop. I should verify the "spring_trimester.id". Let's print this out to see what it does:
-
 ```ruby
 all_classes.each do |klas|
     puts "coding_class_id = #{klas.id}," 
@@ -205,15 +200,13 @@ all_classes.each do |klas|
     puts ""
 end
 ```
-
 That looks good. Probably best to wrap this with some error handling. That way if there is a problem we have some idea of what happened and we don't hurt anything.
-
 ```ruby
 all_classes.each do |klas|
   begin
     Course.create(
       coding_class_id: klas.id,
-      trimester_id: spring_tri_xxvi.id,
+      trimester_id: spring_trimester.id,
       max_enrollment: 25
     )
   rescue StandardError => e
@@ -221,7 +214,88 @@ all_classes.each do |klas|
   end
 end
 ```
-
 No errors, looks good. Let's take a look at the new stuff. Gather a new collection for the courses of spring of 26 like ```spring_courses = Course.where(trimester_id: spring_tri_xxvi)```. Now I can review "_spring_courses_"
 
 ## Question 2
+
+* Create a new student record and enroll the student in the Intro to Programming course for the Spring 2026 trimester.
+
+What attributes does a "student" have?
+```ruby
+Student.first
+```
+Create me as a student:
+```ruby
+Student.create(
+  first_name: "Mason",
+  last_name: "Roberts",
+  email: "mason.roberts@test.com")
+```
+Maybe set me:
+```ruby
+mason = Student.find_by(email: "mason.roberts@test.com")
+```
+What is the into to programming class id?
+```ruby
+CodingClass.find_by(title: "Intro to Programming")
+```
+That id is 1. What is the id for spring trimester of 26?
+```ruby
+Trimester.where(year: "2026", term: "Spring")
+```
+That id is 8. What is the course id for the into to programming course for the spring of 2026?
+```ruby
+Course.where(coding_class_id: 1, trimester_id: 8)
+```
+That id is 36. Enrollment needs course id and student id. Do I have those? course_id = 36 / student_id = 51 (mason.id). I can add me to the intro to programming course for the spring of 2026. First let's check to see if I am already there.
+```ruby
+Enrollment.where(course_id: 36, student_id: 51)
+```
+That returned an empty collection, or array, so let's get me enrolled.
+```ruby
+Enrollment.create(course_id: 36, student_id: 51)
+```
+The record returned:
+```bash
+#<Enrollment:0x00007e3f2844d488
+ id: 91,
+ course_id: 36,
+ student_id: 51,
+ final_grade: nil,
+ created_at: "2025-07-17 20:13:11.387750000 +0000",
+ updated_at: "2025-07-17 20:13:11.387750000 +0000">
+doc-rails(dev)>
+```
+
+* Find a mentor with no more than 2 students (enrollments) assigned and assign that mentor to your new student's enrollment.
+
+There are 31 mentors and 90 mentor enrollment assignments. I need to loop through the mentor enrollment assignments. For every mentor, I need to collect that mentors enrollments. I then need to find the mentors with 2 or less enrollments and collect them with there counts.
+
+Create an array to put mentors in.
+```ruby
+found_em = []
+```
+Loop through the mentors and gather those mentors with no more than 2 assignments.
+```ruby
+mentors.each do |mentor|
+  mint = MentorEnrollmentAssignment.where(mentor_id: mentor.id)
+  if mint.count <= 2
+    entry = "mentor id: #{mentor.id}, email: #{mentor.email}: has #{mint.count} assignments."
+    found_em << entry
+  end
+end
+```
+Call that array of mentors to see what I caught
+```ruby
+found_em
+```
+
+Looks like mentor 22 only has 2 assignments, but previously we lightened that load because of the puppy. That being the said, looks like Frank gets punished. Sorry Frank.
+```ruby
+MentorEnrollmentAssignment.create(mentor_id: 31, enrollment_id: 91)
+```
+
+## Question 3
+**Describe your Project**
+
+
