@@ -235,7 +235,7 @@ Maybe set me:
 ```ruby
 mason = Student.find_by(email: "mason.roberts@test.com")
 ```
-What is the into to programming class id?
+What is the "intro to programming" class id?
 ```ruby
 CodingClass.find_by(title: "Intro to Programming")
 ```
@@ -290,9 +290,9 @@ Call that array of mentors to see what I caught
 found_em
 ```
 
-Looks like mentor 22 only has 2 assignments, but previously we lightened that load because of the puppy. That being the said, looks like Frank gets punished. Sorry Frank.
+Looks like mentor 22 only has 2 assignments, but previously we lightened that load because of the puppy. That being the said, looks like Frank gets punished. Sorry Frank. I can use _find_or_create_by_ or _upsert_ to make sure there is no previous record. If you need to get fancy, use upsert, otherwise, find_or_create_by is the default.
 ```ruby
-MentorEnrollmentAssignment.create(mentor_id: 31, enrollment_id: 91)
+MentorEnrollmentAssignment.find_or_create_by(mentor_id: 31, enrollment_id: 91)
 ```
 
 ## Question 3
