@@ -314,10 +314,55 @@ I have looked at the YouTube API and somewhat understand it. Also have researche
 
 As for MVP I want a environment loaded full of Hermitcraft. A expandable sidebar for navigation. Main page will have scrolling banner along the top for each hermit. Large cards under for the different groups. Single video thumbs of the first episode of season 8 underneath for each hermit.
 
+## Question 4
+
 **The Hermit Model**
 
+**Hermit** - The character
 
-## Question 4
+Character
+
+* Alias
+* Real name:
+  * first name
+  * last name
+* Location:
+  * City
+  * State
+  * Country
+* Profile pic
+* Banner image
+* Social links:
+  * YouTube
+  * Facebook
+  * Redit
+  * Instagram
+  * X
+
+**Video Model**
+
+* Video URL
+* Episode title
+* Episode number
+* Season number
+* Description
+
+**User Model**
+
+* Frist name
+* Last name
+* Email
+
+**Admin**
+* First name
+* Last name
+* Email
+
+**Art Model**
+
+* art url
+* hermit name
+* description
 
 ## Mindset Question
 What do I think about AI and AI Tools in Programming.
