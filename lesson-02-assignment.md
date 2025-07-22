@@ -298,4 +298,34 @@ MentorEnrollmentAssignment.find_or_create_by(mentor_id: 31, enrollment_id: 91)
 ## Question 3
 **Describe your Project**
 
+I have been back and forth on this. I have a idea for a school that I could simply use this course work to make it. I have a great design for a recipe app that would be fun. I have the Zune player that I love to tinker with. However, I have landed on the one above all. The one that never gets done. The one that picks at the edges of my dreams. The one I have tried to start over and over. The one I am scared of. The one that I want above all others.
 
+**Welcome Hermit Plus**
+
+Over the years it has been a dream. I have picked at it from time to time. I have started and stopped. Never made real headway. Rails is the platform that will give this build some respect. I feel confident enough in Rails to give this a full go. What is Hermit Plus? Allow me. Minecraft is an amazing game. It allows for games within the game. It allows for programming your own features into the game. It is like no other. There are a group of people called Hermits that play together on the same server. It is called hermitcraft. They have really hit on a niche. They all play together on a server for a season. During that season they interact and follow some story line they put together. There are hermits that are amazing builders and others who are crazy at redstone. At the end of the season they have a fully grown and built server that others can purchase. They are YouTube content providers and many use twitch for live stream.
+
+What I have always wanted was a platform just for them. Think Netflix but for just the Hermits. This is a ban-aid to the bigger problem for content providers, but this is a stepping stone to that solution. A big one if I am honest. Hermit Plus is a streaming web app that includes just the Hermits of Hermitcraft. It would use the YouTube API to get video content from YouTube. There needs to be a connection there. My goal is to separate the Hermits from the noise of YouTube, but never substitute the platform. Rather I want to use YouTube as storage for the videos. I would use the API to grab subscriptions and pass likes as well. This would need a service to regularly verify links still work and such.
+
+I want to build a platform that allows each Hermit the opportunity to shine like they should. Personally I want to be able to better track and enjoy the friendships between them from season to season. I want to better enjoy the fan art for the characters, or be able to get character specs, see there skins.
+
+Personally I feel that season 8 is great. For anyone visiting, they would be a guest, and would have access to season 8. Every Hermit should have an account for there character. There has to be a master admin that can manage the entire site. There will be two levels of user past the guest. One can view all content, and one that can upload art, music, skins, maps, and such. Some of that would be links of course. This is a media streaming app at it's heart, for the Hermits, not a social app. At least MVP will not be an in depth social app.
+
+I have looked at the YouTube API and somewhat understand it. Also have researched the wiki API thinking it would be useful here. The Hermits do have a fan wiki running through the Fandom wiki. That is a bit of a mess.
+
+As for MVP I want a environment loaded full of Hermitcraft. A expandable sidebar for navigation. Main page will have scrolling banner along the top for each hermit. Large cards under for the different groups. Single video thumbs of the first episode of season 8 underneath for each hermit.
+
+**The Hermit Model**
+
+
+## Question 4
+
+## Mindset Question
+What do I think about AI and AI Tools in Programming.
+
+AI is easily accessible today in many aspects of out lives. As for coding or programming, it has become very integrated as you can get extensions like Wavesurfer, or vsCode has CoPilot integrated right in. There are many platforms to choose from such as Googles Gemini to DeepSeek. My point is that it is there and available. There is no running from it.
+
+I tend to use it as my personal mentor when coding. Often I run through concerns that I am do not completely understand and I use DeepSeek to better understand these concerns. For me it is an amazing tool that I never had access before in developing web apps. It still has it's problems. I used it heavily to try and create the table of contents service for my blob, built in Rails. It took roughly 6 months to get it working. In the end it was a "idea" for a test I had that found the problem and allowed for a working service. It would still be a jumble of code snippets and ideas if not for AI though. It is difficult for a hobbyist or junior developer to get along and move forward with there own concept using just the docs. At least that has been my experience. AI has gave me a sense that my code has grown and matured.
+
+Problem in this situation is the temptation to have AI do the coding for you. Even if the AI is learning from older code, that code probably still works, and the temptation to copy past without understanding the foundation can be problematic. You are not going to learn or grow if you do not understand. This feels like a personal issue though.
+
+I have been through several technical interviews. I believe I am a good developer. Have a solid foundation. I can begin writing code without any help and understand how to lay out a project from the start. I understand the git operations, can write node scripts, have a solid understanding o object oriented programming like javascript or ruby. The technical interview scares the fool out of me though and have failed everyone I have ever taken. For various reasons. Many I did not understand the objective or went at it in a way that was not proper. Many times I simply did not understand. There is no way one who is copy pasting answers from AI can pass a technical interview. If I am wrong in this assumption, I will immediately stop doing things the hard way.
